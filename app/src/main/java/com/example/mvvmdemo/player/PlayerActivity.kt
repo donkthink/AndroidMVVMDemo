@@ -40,7 +40,7 @@ class PlayerActivity : AppCompatActivity(), IPlayerCallback {
     }
 
     override fun onTitleChange(title: String) {
-
+        songTitle?.text=title
     }
 
     override fun onProgressChange(current: Int) {
@@ -48,14 +48,16 @@ class PlayerActivity : AppCompatActivity(), IPlayerCallback {
     }
 
     override fun onPlaying() {
-
+        //播放中--->显示暂停
+        playerOrPauseBtn.text="暂停"
     }
 
     override fun onPlayerPause() {
-
+        //暂停--->显示播放
+        playerOrPauseBtn.text="播放"
     }
 
     override fun onCoverChange(cover: String) {
-
+        println("封面改变了...$cover")
     }
 }
