@@ -5,33 +5,17 @@ import android.os.Bundle
 import com.example.mvvmdemo.R
 import kotlinx.android.synthetic.main.activity_player.*
 
-class PlayerActivity : AppCompatActivity(), IPlayerCallback {
+class FlowPlayerControllerActivity : AppCompatActivity(), IPlayerCallback {
 
-    //持有Presenetet的引用
     private val playerPresenter by lazy{
         PlayerPresenter.instance
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player)
-        //注册监听，通知UI
+        setContentView(R.layout.activity_flow_player_controller)
         playerPresenter.registerCallback(this)
-        initListener()
-    }
-
-    //给控件设置点击事件
-    private fun initListener() {
-        playerOrPauseBtn.setOnClickListener{
-            //调用presenter层的播放或者暂停方法
-            playerPresenter.doPlayOrPause()
-        }
-        playNextBtn.setOnClickListener{
-            playerPresenter.playNext()
-        }
-        playPreBtn.setOnClickListener{
-            playerPresenter.playPre()
-        }
+        initListener();
     }
 
     override fun onDestroy() {
@@ -39,8 +23,14 @@ class PlayerActivity : AppCompatActivity(), IPlayerCallback {
         playerPresenter.unregisterCallbck(this)
     }
 
+    private fun initListener() {
+        playerOrPauseBtn.setOnClickListener{
+            playerPresenter.doPlayOrPause()
+        }
+    }
+
     override fun onTitleChange(title: String) {
-        songTitle?.text=title
+
     }
 
     override fun onProgressChange(current: Int) {
@@ -48,16 +38,14 @@ class PlayerActivity : AppCompatActivity(), IPlayerCallback {
     }
 
     override fun onPlaying() {
-        //播放中--->显示暂停
         playerOrPauseBtn.text="暂停"
     }
 
     override fun onPlayerPause() {
-        //暂停--->显示播放
         playerOrPauseBtn.text="播放"
     }
 
     override fun onCoverChange(cover: String) {
-        println("封面改变了...$cover")
+
     }
 }

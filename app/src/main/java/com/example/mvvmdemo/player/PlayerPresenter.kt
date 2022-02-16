@@ -17,7 +17,13 @@ package com.example.mvvmdemo.player
  * 暂停音乐
  * -更新UI状态为暂停
  */
-class PlayerPresenter {
+class PlayerPresenter private constructor(){
+
+    companion object{
+        val instance by lazy {
+           PlayerPresenter()
+        }
+    }
 
     enum class PlayState{
         NONE,PLAYING,PAUSE,LOADING
@@ -49,8 +55,10 @@ class PlayerPresenter {
             //开始播放音乐
             //TODO:
             dispatchPlayingState()
+            currentPlayState=PlayState.PLAYING
         }else{
             //暂停播放
+            currentPlayState=PlayState.PAUSE
             dispatchPlayerPauseState()
         }
     }
@@ -77,7 +85,7 @@ class PlayerPresenter {
         dispatchCoverChange("切换到下一首，封面变化了...")
         //2.设置给播放器
         //3.等待播放的时间回调通知
-
+        currentPlayState=PlayState.PLAYING
     }
 
     private fun dispatchTitleChange(title:String){
@@ -101,5 +109,6 @@ class PlayerPresenter {
         dispatchCoverChange("切换到上一首，封面变化了...")
         //2.设置给播放器
         //3.等待播放的时间回调通知
+        currentPlayState=PlayState.PLAYING
     }
 }
