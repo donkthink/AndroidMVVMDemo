@@ -80,7 +80,7 @@ class PlayerPresenter {
 
     }
 
-    private fun dispatchTitleChange(title:Strinng){
+    private fun dispatchTitleChange(title:String){
         callbacksList.forEach{
             it.onTitleChange(title)
         }
