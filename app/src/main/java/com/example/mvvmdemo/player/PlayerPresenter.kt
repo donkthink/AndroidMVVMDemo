@@ -1,5 +1,7 @@
 package com.example.mvvmdemo.player
 
+import com.example.mvvmdemo.player.domain.Music
+
 /**
  *on 2022/2/15
  *com.example.mvvmdemo.player
@@ -16,8 +18,26 @@ package com.example.mvvmdemo.player
  * -通知UI歌曲封面变化
  * 暂停音乐
  * -更新UI状态为暂停
+ *
+ *
+ * 相关数据：
+ * 当前播放的歌曲
+ * 当前播放的状态
  */
 class PlayerPresenter private constructor(){
+
+    private val playerModel by lazy{
+        PlayerModel()
+    }
+
+    private val player by lazy {
+        MusicPlayer()
+    }
+
+    private var currentMusic: Music?=null
+
+    //当前状态
+    private var currentPlayState=PlayState.NONE
 
     companion object{
         val instance by lazy {
@@ -30,9 +50,6 @@ class PlayerPresenter private constructor(){
     }
 
     private val callbacksList= arrayListOf<IPlayerCallback>()
-
-    //当前状态
-    private var currentPlayState=PlayState.NONE
 
     fun registerCallback(callback: IPlayerCallback){
         if(!callbacksList.contains(callback)){
@@ -49,6 +66,11 @@ class PlayerPresenter private constructor(){
      */
 
     fun doPlayOrPause(){
+        if(currentPlayState==null){
+            //去获取一首歌曲
+            currentMusic=playerModel.getMusicById("xxx")
+        }
+        player.play(currentMusic)
         dispatchTitleChange("当前播放的歌曲标题...")
         dispatchCoverChange("当前播放的歌曲封面...")
         if (currentPlayState!=PlayState.PLAYING){

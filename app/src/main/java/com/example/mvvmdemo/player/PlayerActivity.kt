@@ -18,6 +18,14 @@ class PlayerActivity : AppCompatActivity(), IPlayerCallback {
         //注册监听，通知UI
         playerPresenter.registerCallback(this)
         initListener()
+        initDataListener()
+    }
+
+    /**
+     * 对数据进行监听
+     */
+    private fun initDataListener() {
+        TODO("Not yet implemented")
     }
 
     //给控件设置点击事件
